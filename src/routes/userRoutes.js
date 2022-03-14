@@ -27,4 +27,29 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      res.status(422).json({
+        message: "O usuário não foi encontrado.",
+      });
+    }
+    res.status(200).json({
+      error: false,
+      message: "Usuário encontrado com sucesso.",
+      user,
+    });
+  } catch (err) {
+    res.status(400).json({
+      error: true,
+      message: "Não foi possivel localizar o usuário.",
+      err,
+    });
+    console.log(err);
+  }
+});
+
 module.exports = router;

@@ -6,7 +6,9 @@ const PORT = 8080;
 app.use(express.json());
 
 const userRoutes = require("./routes/userRoutes");
+
 app.use("/register", userRoutes);
+app.use("/:id", userRoutes);
 
 mongoose
   .connect("mongodb://localhost/nodejs-mongodb-crud")
