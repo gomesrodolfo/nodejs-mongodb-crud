@@ -78,4 +78,38 @@ router.delete("/:id", async (req, res)=>{
   }
 })
 
+router.patch("/:id", async(req, res)=>{
+  const id = req.params.id;
+
+  const {name, lastName, email} = req.body;
+
+  const user = {
+    name,
+    lastName,
+    email,
+  };
+
+  try {
+    const updateUser = await User.updateOne({ _id: id }, user);
+
+    if(updateUser.matchedCount === 0){
+      res.status(500).json({
+        error: true,
+        message: "Não foi possivel localizar o cadastro.",
+        error,
+      });
+    }
+    res.status(200).json({
+      error: false,
+      message: "Cadastro atualizado com sucesso.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: "Não foi possivel atualizar o cadastro.",
+      error,
+    });
+  }
+})
+
 module.exports = router;
